@@ -1,0 +1,17 @@
+  m_Name: "bg_ingame"
+  m_LoadType: 0
+  m_Channels: 2
+  m_Frequency: 44100
+  m_BitsPerSample: 16
+  m_Length: 30.19755
+  m_IsTrackerFormat: 0
+  m_Ambisonic: 0
+  m_SubsoundIndex: 0
+  m_PreloadAudioData: 1
+  m_LoadInBackground: 0
+  m_Legacy3D: 1
+  m_Resource:
+    m_Source: "7b75d44f5b46926499cceb57d2627802.resource"
+    m_Offset: 0
+    m_Size: 256512
+  m_CompressionFormat: 1

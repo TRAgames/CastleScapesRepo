@@ -1,0 +1,17 @@
+  m_Name: "coin_apply"
+  m_LoadType: 0
+  m_Channels: 1
+  m_Frequency: 44100
+  m_BitsPerSample: 16
+  m_Length: 0.683991
+  m_IsTrackerFormat: 0
+  m_Ambisonic: 0
+  m_SubsoundIndex: 0
+  m_PreloadAudioData: 1
+  m_LoadInBackground: 0
+  m_Legacy3D: 1
+  m_Resource:
+    m_Source: "cc23542ef6b5081469aaae5d35a9a617.resource"
+    m_Offset: 0
+    m_Size: 6784
+  m_CompressionFormat: 1

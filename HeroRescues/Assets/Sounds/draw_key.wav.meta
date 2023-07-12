@@ -1,0 +1,17 @@
+  m_Name: "draw_key"
+  m_LoadType: 0
+  m_Channels: 2
+  m_Frequency: 44100
+  m_BitsPerSample: 16
+  m_Length: 0.6502494
+  m_IsTrackerFormat: 0
+  m_Ambisonic: 0
+  m_SubsoundIndex: 0
+  m_PreloadAudioData: 1
+  m_LoadInBackground: 0
+  m_Legacy3D: 1
+  m_Resource:
+    m_Source: "f45c46aaa1ece4f4d819e29f72a9b2d4.resource"
+    m_Offset: 0
+    m_Size: 22336
+  m_CompressionFormat: 1

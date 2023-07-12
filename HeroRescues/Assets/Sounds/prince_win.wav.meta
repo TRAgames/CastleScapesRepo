@@ -1,0 +1,17 @@
+  m_Name: "prince_win"
+  m_LoadType: 0
+  m_Channels: 2
+  m_Frequency: 44100
+  m_BitsPerSample: 16
+  m_Length: 0.6197506
+  m_IsTrackerFormat: 0
+  m_Ambisonic: 0
+  m_SubsoundIndex: 0
+  m_PreloadAudioData: 1
+  m_LoadInBackground: 0
+  m_Legacy3D: 1
+  m_Resource:
+    m_Source: "b4ec6085041dcaa479842efb9910069e.resource"
+    m_Offset: 0
+    m_Size: 21344
+  m_CompressionFormat: 1

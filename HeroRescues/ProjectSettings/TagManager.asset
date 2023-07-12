@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Metaball_liquid
+  - DynamicParticle
+  - Ground
+  - Rock
+  - Coin
+  - Hero
+  - Pin
+  - ToxicCloud
+  - Saw
+  - Chest
+  - Magma
+  - Water
+  - Goblin
+  - Spider
+  - Princess
+  - FrostCloud
+  - BrokenWall
+  - Weight
+  - WoodBlock
+  - RawGold
+  - ChestCheckPoint
+  - BrokenDoor
+  - Sword
+  - Lavawall
+  - Niffle
+  - BombChest
+  - WayPoint
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - MetaBalls
+  - Gas
+  - Drag
+  - Static
+  - MagmaBalls
+  - Background
+  - Rock
+  - Rope
+  - Hero
+  - Goblin
+  - Lava
+  - Chest
+  - GoblinDie
+  - Projectile
+  - Static2
+  - Gold
+  - Air
+  - Sword
+  - WayPoint
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0

@@ -1,0 +1,17 @@
+  m_Name: "metal_impact"
+  m_LoadType: 0
+  m_Channels: 1
+  m_Frequency: 22050
+  m_BitsPerSample: 16
+  m_Length: 1.340907
+  m_IsTrackerFormat: 0
+  m_Ambisonic: 0
+  m_SubsoundIndex: 0
+  m_PreloadAudioData: 1
+  m_LoadInBackground: 0
+  m_Legacy3D: 1
+  m_Resource:
+    m_Source: "a08ba1bcb3d3ea44ab17ed9ccafb4f55.resource"
+    m_Offset: 0
+    m_Size: 8800
+  m_CompressionFormat: 1

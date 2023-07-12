@@ -1,0 +1,17 @@
+  m_Name: "sword_slash"
+  m_LoadType: 0
+  m_Channels: 2
+  m_Frequency: 44100
+  m_BitsPerSample: 16
+  m_Length: 0.5746939
+  m_IsTrackerFormat: 0
+  m_Ambisonic: 0
+  m_SubsoundIndex: 0
+  m_PreloadAudioData: 1
+  m_LoadInBackground: 0
+  m_Legacy3D: 1
+  m_Resource:
+    m_Source: "4b68e737df4a4b74eae116074b288db1.resource"
+    m_Offset: 0
+    m_Size: 19520
+  m_CompressionFormat: 1

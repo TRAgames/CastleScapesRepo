@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: bf4c251ffd2c47f4a0c5f6b6afd4bf53
+timeCreated: 1597662761
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: "BOOKOSB"
+  fontNames:
+  - Bookman Old Style
+  fallbackFontReferences: []
+  customCharacters:
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData:
+  assetBundleName: 
+  assetBundleVariant: 

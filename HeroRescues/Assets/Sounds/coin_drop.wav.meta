@@ -1,0 +1,17 @@
+  m_Name: "coin_drop"
+  m_LoadType: 0
+  m_Channels: 2
+  m_Frequency: 44100
+  m_BitsPerSample: 16
+  m_Length: 0.1621542
+  m_IsTrackerFormat: 0
+  m_Ambisonic: 0
+  m_SubsoundIndex: 0
+  m_PreloadAudioData: 1
+  m_LoadInBackground: 0
+  m_Legacy3D: 1
+  m_Resource:
+    m_Source: "682c014b3c52a3049a5f8abc50c6d634.resource"
+    m_Offset: 0
+    m_Size: 8480
+  m_CompressionFormat: 1

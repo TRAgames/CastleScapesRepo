@@ -1,0 +1,17 @@
+  m_Name: "prince_die"
+  m_LoadType: 0
+  m_Channels: 1
+  m_Frequency: 22050
+  m_BitsPerSample: 16
+  m_Length: 1.245125
+  m_IsTrackerFormat: 0
+  m_Ambisonic: 0
+  m_SubsoundIndex: 0
+  m_PreloadAudioData: 1
+  m_LoadInBackground: 0
+  m_Legacy3D: 1
+  m_Resource:
+    m_Source: "8545c446831e2984e969fe3cbf51824c.resource"
+    m_Offset: 0
+    m_Size: 9280
+  m_CompressionFormat: 1

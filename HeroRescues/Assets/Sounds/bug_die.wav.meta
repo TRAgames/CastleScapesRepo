@@ -1,0 +1,17 @@
+  m_Name: "bug_die"
+  m_LoadType: 0
+  m_Channels: 1
+  m_Frequency: 22050
+  m_BitsPerSample: 16
+  m_Length: 2.557052
+  m_IsTrackerFormat: 0
+  m_Ambisonic: 0
+  m_SubsoundIndex: 0
+  m_PreloadAudioData: 1
+  m_LoadInBackground: 0
+  m_Legacy3D: 1
+  m_Resource:
+    m_Source: "051c0f30d2c6d204485104324abb8fef.resource"
+    m_Offset: 0
+    m_Size: 17856
+  m_CompressionFormat: 1

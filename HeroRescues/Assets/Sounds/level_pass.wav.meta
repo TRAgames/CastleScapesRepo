@@ -1,0 +1,17 @@
+  m_Name: "level_pass"
+  m_LoadType: 0
+  m_Channels: 2
+  m_Frequency: 44100
+  m_BitsPerSample: 16
+  m_Length: 1.854694
+  m_IsTrackerFormat: 0
+  m_Ambisonic: 0
+  m_SubsoundIndex: 0
+  m_PreloadAudioData: 1
+  m_LoadInBackground: 0
+  m_Legacy3D: 1
+  m_Resource:
+    m_Source: "a63bc2aecd89f2443bea6c639ec6cf68.resource"
+    m_Offset: 0
+    m_Size: 61920
+  m_CompressionFormat: 1

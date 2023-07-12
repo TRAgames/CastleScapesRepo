@@ -1,0 +1,17 @@
+  m_Name: "troll_die"
+  m_LoadType: 0
+  m_Channels: 1
+  m_Frequency: 22050
+  m_BitsPerSample: 16
+  m_Length: 3.44381
+  m_IsTrackerFormat: 0
+  m_Ambisonic: 0
+  m_SubsoundIndex: 0
+  m_PreloadAudioData: 1
+  m_LoadInBackground: 0
+  m_Legacy3D: 1
+  m_Resource:
+    m_Source: "67a5e1a191c76f0419c9d4581ca66548.resource"
+    m_Offset: 0
+    m_Size: 25856
+  m_CompressionFormat: 1

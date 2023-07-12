@@ -1,0 +1,17 @@
+  m_Name: "level_pass_princess"
+  m_LoadType: 0
+  m_Channels: 2
+  m_Frequency: 44100
+  m_BitsPerSample: 16
+  m_Length: 3.004082
+  m_IsTrackerFormat: 0
+  m_Ambisonic: 0
+  m_SubsoundIndex: 0
+  m_PreloadAudioData: 1
+  m_LoadInBackground: 0
+  m_Legacy3D: 1
+  m_Resource:
+    m_Source: "440b063036116d641abdb77e027b9ed5.resource"
+    m_Offset: 0
+    m_Size: 145888
+  m_CompressionFormat: 1
