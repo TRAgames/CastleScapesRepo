@@ -188,7 +188,7 @@ public class UIManager : MonoBehaviour
         Camera.main.transform.localPosition = new Vector3(_hero.transform.localPosition.x,
         _hero.transform.localPosition.y, Camera.main.transform.position.z);
         Camera.main.orthographicSize = 3.0f;
-        AdsControl.Instance.showAds();
+        //AdsControl.Instance.showAds();
         if (PlayerPrefs.GetInt("Bonus" + PlayerPrefs.GetInt("CurrentLevel")) == 1)
         {
             doubleCoinBtn.SetActive(false);
@@ -268,7 +268,7 @@ public class UIManager : MonoBehaviour
         Camera.main.transform.localPosition = new Vector3(_hero.transform.localPosition.x,
         _hero.transform.localPosition.y, Camera.main.transform.position.z);
         Camera.main.orthographicSize = 3.0f;
-        AdsControl.Instance.showAds();
+        //AdsControl.Instance.showAds();
     }
 
     public void BuyMoreLife()

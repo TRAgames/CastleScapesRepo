@@ -13,7 +13,7 @@ public class HomeManager : MonoBehaviour
 
     public static HomeManager _instance;
 
-    public Text coinText,lockLevelText;
+    public Text coinText, lifeText, lockLevelText;
 
     private void Awake()
     {
@@ -36,8 +36,9 @@ public class HomeManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        lockLevelText.text = "LEVEL " + PlayerPrefs.GetInt("LockLevel");
+        //lockLevelText.text = "LEVEL " + PlayerPrefs.GetInt("LockLevel");
         UpdateCoinText();
+        UpdateLifeText();
         UpdateSetting();
     }
 
@@ -166,7 +167,12 @@ public class HomeManager : MonoBehaviour
     void UpdateCoinText()
     {
         coinText.text = PlayerPrefs.GetInt("Coin") + "";
-    }    
+    }
+
+    void UpdateLifeText()
+    {
+        lifeText.text = PlayerPrefs.GetInt("Life") + "";
+    }
 
     public void MoreLive()
     {
@@ -187,15 +193,19 @@ public class HomeManager : MonoBehaviour
 
     public void MoreCoin()
     {
-        AdsControl.Instance.PlayDelegateRewardVideo(delegate
-        {
-            //function
-            int _coin = PlayerPrefs.GetInt("Coin");
-            _coin += 50;
-            PlayerPrefs.SetInt("Coin", _coin);
-            UpdateCoinText();
-        });
-       
+        int _coin = PlayerPrefs.GetInt("Coin");
+        _coin += 50;
+        PlayerPrefs.SetInt("Coin", _coin);
+        UpdateCoinText();
+        /* AdsControl.Instance.PlayDelegateRewardVideo(delegate
+         {
+             //function
+             int _coin = PlayerPrefs.GetInt("Coin");
+             _coin += 50;
+             PlayerPrefs.SetInt("Coin", _coin);
+             UpdateCoinText();
+         }); */
+
     }
 
     public void UpdateLive(int life)
