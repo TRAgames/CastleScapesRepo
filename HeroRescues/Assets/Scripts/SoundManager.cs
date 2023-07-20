@@ -15,7 +15,7 @@ public class SoundManager : MonoBehaviour
 	// Singleton instance.
 	public static SoundManager Instance = null;
 
-	public AudioClip _pin, _rock, _coinDrop1,_levelPass,_levelFail,_princessDie,_sword,_goblinAttack,_goblinDie;
+	public AudioClip _pin, _rock, _coinDrop1,_levelPass,_levelFail,_princessDie,_sword,_goblinAttack,_goblinDie, _btnClick;
 
 	// Initialize the singleton instance.
 	private void Awake()

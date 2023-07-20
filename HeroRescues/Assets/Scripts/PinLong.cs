@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PinLong : MonoBehaviour
 {
@@ -19,6 +21,8 @@ public class PinLong : MonoBehaviour
 	public Transform _to, _from,_edge;
 
 	public float speed = 10.0f;
+
+	private bool _canMove = false;
 
 
 	Vector2 startPos;
@@ -59,14 +63,17 @@ public class PinLong : MonoBehaviour
 
 		float angle = Mathf.Atan(nr.y / nr.x);
 		//Debug.Log("Angle " + nr.x + " " + nr.y + " " + angle);
-		waypoints[1] = new Vector3(transform.position.x + Mathf.Sign(nr.x) * Mathf.Cos(Mathf.Abs(angle)) * 10.0f,
-			transform.position.y + Mathf.Sign(nr.y) * Mathf.Sin(Mathf.Abs(angle)) * 10.0f, transform.position.z);
+		waypoints[1] = new Vector3(transform.position.x + Mathf.Sign(nr.x) * Mathf.Cos(Mathf.Abs(angle)) * 100.0f,
+			transform.position.y + Mathf.Sign(nr.y) * Mathf.Sin(Mathf.Abs(angle)) * 100.0f, transform.position.z);
 	}
 
 	public void Update()
 	{
-		if (GameManager.instance.isGameOver || GameManager.instance.isGameWin)
+        if (_canMove) MoveOject();
+
+        if (GameManager.instance.isGameOver || GameManager.instance.isGameWin)
 			return;
+
 		/*
 		if (Input.touches.Length > 0)
 		{
@@ -117,7 +124,7 @@ public class PinLong : MonoBehaviour
 			}
 		}
 		*/
-
+		/*
 
 		if (Input.GetMouseButtonDown(0))
 		{
@@ -236,7 +243,7 @@ public class PinLong : MonoBehaviour
 			StartCoroutine(Shake(this.transform));
 		else if (_hitEdge && !isShake && swipedDown)
 			 StartCoroutine(Shake(this.transform));
-
+		*/
 	}
 
 	void MoveOject()
@@ -316,6 +323,8 @@ public class PinLong : MonoBehaviour
 		isShake = false;
 	}
 
-
-	
+    public void OnMouseDown()
+    {
+		_canMove = true;
+    }
 }

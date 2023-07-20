@@ -26,7 +26,7 @@ public class Magma : MonoBehaviour
         {
             convert = true;
             GameObject _rockObj1 = (GameObject) Instantiate(_rock, transform.position, transform.rotation);
-            SoundManager.Instance.Play(SoundManager.Instance._rock);
+            //SoundManager.Instance.Play(SoundManager.Instance._rock);
             // LevelPool._instance.AddObject(_rockObj1);
             Destroy(gameObject);
             Destroy(collision.gameObject);

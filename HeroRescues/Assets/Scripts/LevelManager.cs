@@ -14,6 +14,8 @@ public class LevelManager : MonoBehaviour
 
     public GameObject bg1, bg2, bg3;
 
+    public Transform levelPosition;
+
 
     public enum LEVEL_TYPE
     {
@@ -33,24 +35,12 @@ public class LevelManager : MonoBehaviour
         LoadLevel();
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-       
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void LoadLevel()
     {
         currentLevel = PlayerPrefs.GetInt("CurrentLevel");
-        currentLevelObj = (GameObject)Instantiate(Resources.Load<GameObject>("levels/Level " + currentLevel.ToString()));
+        currentLevelObj = (GameObject)Instantiate(Resources.Load<GameObject>("levels/Level " + currentLevel.ToString()), levelPosition);       
 
-        if(currentLevel >=1 && currentLevel <= 25)
+        if (currentLevel >=1 && currentLevel <= 25)
         {
             bg1.SetActive(true);
             bg2.SetActive(false);

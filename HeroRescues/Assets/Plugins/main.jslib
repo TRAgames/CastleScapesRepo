@@ -27,7 +27,7 @@ LoadExtern: function () {
     });
 },
 
-GetHint: function () {
+SkipLevel: function () {
 ysdk.adv.showRewardedVideo({
     callbacks: {
         onOpen: () => {
@@ -37,7 +37,45 @@ ysdk.adv.showRewardedVideo({
           console.log('Rewarded!');
         },
         onClose: () => {
-          myGameInstance.SendMessage('Main Camera', 'ShowHintRewarded');
+          myGameInstance.SendMessage('Canvas', 'SkipLevelRewarded');
+        }, 
+        onError: (e) => {
+          console.log('Error while open video ad:', e);
+        }
+    }
+})
+},
+
+GetCoins: function () {
+ysdk.adv.showRewardedVideo({
+    callbacks: {
+        onOpen: () => {
+          myGameInstance.SendMessage('Progress', 'PauseMusic');
+        },
+        onRewarded: () => {
+          console.log('Rewarded!');
+        },
+        onClose: () => {
+          myGameInstance.SendMessage('Canvas', 'GetCoinsRewarded');
+        }, 
+        onError: (e) => {
+          console.log('Error while open video ad:', e);
+        }
+    }
+})
+},
+
+DoubleCoins: function () {
+ysdk.adv.showRewardedVideo({
+    callbacks: {
+        onOpen: () => {
+          myGameInstance.SendMessage('Progress', 'PauseMusic');
+        },
+        onRewarded: () => {
+          console.log('Rewarded!');
+        },
+        onClose: () => {
+          myGameInstance.SendMessage('Canvas', 'DoubleCoinsRewarded');
         }, 
         onError: (e) => {
           console.log('Error while open video ad:', e);

@@ -11,6 +11,8 @@ public class Progress : MonoBehaviour
     private static extern void LoadExtern();
     public static Progress Instance;
 
+    public User User;
+
     public bool IsAdsShowing = false;
 
     private void Awake()
@@ -20,7 +22,7 @@ public class Progress : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             Instance = this;
 #if !UNITY_EDITOR && UNITY_WEBGL
-            //LoadExtern();
+            LoadExtern();
 #endif
         }
         else
@@ -35,25 +37,44 @@ public class Progress : MonoBehaviour
         {
             DeleteAllData();
         }
+
+        if (Input.GetKeyDown(KeyCode.Insert) && Input.GetKeyDown(KeyCode.End))
+        {
+            PlayerPrefs.SetInt("LockLevel", 99);
+        }
     }
 
     public void Save()
     {
-        //string jsonString = JsonUtility.ToJson(User.GetCurrentUser());
-        //SaveExtern(jsonString);
+        string jsonString = JsonUtility.ToJson(User.GetCurrentUser());
+        SaveExtern(jsonString);
     }
 
     public void Load(string value)
     {
-        //User = JsonUtility.FromJson<User>(value);
-        //User.SetCurrentUser(User);
+        User = JsonUtility.FromJson<User>(value);
+        User.SetCurrentUser(User);
+        if (PlayerPrefs.GetInt("StartGame") == 0)
+        {
+            PlayerPrefs.SetInt("StartGame", 1);
+            PlayerPrefs.SetInt("Coin", 200);
+            PlayerPrefs.SetInt("Life", 3);
+            PlayerPrefs.SetInt("Sound", 1);
+            PlayerPrefs.SetInt("Music", 1);
+            PlayerPrefs.SetInt("Vir", 1);
+            PlayerPrefs.SetInt("LockLevel", 1);
+            Save();
+        }
+        HomeManager.Instance.UpdateCoinText();
+        HomeManager.Instance.UpdateLifeText();
+        HomeManager.Instance.UpdateSetting();
     }
 
     private void DeleteAllData()
     {
         PlayerPrefs.DeleteAll();
 #if !UNITY_EDITOR && UNITY_WEBGL
-        //User = new User();
+        User = new User();
         Save();
 #endif
     }

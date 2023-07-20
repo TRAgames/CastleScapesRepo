@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,7 +10,7 @@ public class LevelSelector : MonoBehaviour
     [HideInInspector]
     public int currentPage = 0,totalPage;
 
-    public Text pageText;
+    public TextMeshProUGUI pageText;
 
     public Sprite unlockLevel,lockLevel;
     private void Awake()
@@ -62,7 +63,7 @@ public class LevelSelector : MonoBehaviour
         int _lockLevel = PlayerPrefs.GetInt("LockLevel");
         for(int i = 0; i < levelItemLst.Length; i++)
         {
-            levelItemLst[i].Find("LevelText").GetComponent<Text>().text = (i + 1 + levelItemLst.Length * currentPage).ToString() + "";
+            levelItemLst[i].Find("LevelText " + "(" + i + ")").GetComponent<TextMeshProUGUI>().text = (i + 1 + levelItemLst.Length * currentPage).ToString() + "";
             if (i + 1 + levelItemLst.Length * currentPage <= _lockLevel)
                 levelItemLst[i].Find("Panel").GetComponent<Image>().sprite = unlockLevel;
             else
@@ -81,7 +82,7 @@ public class LevelSelector : MonoBehaviour
     public void LoadLevel(int _level)
     {
         if(_level <= PlayerPrefs.GetInt("LockLevel"))
-         HomeManager._instance.LoadLevel(_level + levelItemLst.Length * currentPage);
+         HomeManager.Instance.LoadLevel(_level + levelItemLst.Length * currentPage);
     }
 
     public void NextPage()

@@ -1,36 +1,42 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class HomeManager : MonoBehaviour
 {
+    [DllImport("__Internal")]
+    private static extern void GetCoins();
+
     public GameObject levelSelector, homePanel, loadingPanel,settingPanel,outLifePanel, moreCoinPanel, frontLife1,frontLife2,frontLife3;
 
     public Image loadingMask, musicImg,soundImg,virImg;
 
-    public Sprite onBtn, offBtn;
+    public Sprite onMusicBtn, offMusicBtn, onSoundBtn, offSoundBtn;
 
-    public static HomeManager _instance;
+    private static HomeManager _instance;
 
-    public Text coinText, lifeText, lockLevelText;
+    public TextMeshProUGUI coinText, lifeText, lockLevelText;
+
+    public static HomeManager Instance { get => _instance; set => _instance = value; }
 
     private void Awake()
     {
         _instance = this;
-
-        if(PlayerPrefs.GetInt("StartGame") == 0)
+#if UNITY_EDITOR
+        if (PlayerPrefs.GetInt("StartGame") == 0)
         {
             PlayerPrefs.SetInt("StartGame", 1);
             PlayerPrefs.SetInt("Coin", 200);
-            PlayerPrefs.SetInt("Life",3);
+            PlayerPrefs.SetInt("Life", 3);
             PlayerPrefs.SetInt("Sound", 1);
             PlayerPrefs.SetInt("Music", 1);
             PlayerPrefs.SetInt("Vir", 1);
             PlayerPrefs.SetInt("LockLevel", 1);
         }
-
-       
+#endif
     }
 
     // Start is called before the first frame update
@@ -50,6 +56,10 @@ public class HomeManager : MonoBehaviour
 
     public void ShowLevelPanel()
     {
+        if (PlayerPrefs.GetInt("Sound") == 1)
+        {
+            SoundManager.Instance.Play(SoundManager.Instance._btnClick);
+        }
         if (PlayerPrefs.GetInt("Life") > 0)
             levelSelector.SetActive(true);
         else
@@ -58,12 +68,20 @@ public class HomeManager : MonoBehaviour
 
     public void ShowSettingPanel()
     {
+        if (PlayerPrefs.GetInt("Sound") == 1)
+        {
+            SoundManager.Instance.Play(SoundManager.Instance._btnClick);
+        }
         settingPanel.SetActive(true);
         homePanel.SetActive(false);
     }
 
     public void CloseSettingPanel()
     {
+        if (PlayerPrefs.GetInt("Sound") == 1)
+        {
+            SoundManager.Instance.Play(SoundManager.Instance._btnClick);
+        }
         //settingPanel.GetComponent<Animator>().SetTrigger("Close");
         homePanel.SetActive(true);
         settingPanel.SetActive(false);
@@ -99,11 +117,14 @@ public class HomeManager : MonoBehaviour
 
     public void LoadLevel(int _level)
     {
+        if (PlayerPrefs.GetInt("Sound") == 1)
+        {
+            SoundManager.Instance.Play(SoundManager.Instance._btnClick);
+        }
         PlayerPrefs.SetInt("CurrentLevel", _level);
         HideLevelPanel();
         homePanel.SetActive(false);
         StartCoroutine(Fading());
-
     }
 
     IEnumerator Fading()
@@ -164,12 +185,12 @@ public class HomeManager : MonoBehaviour
         }
     }
 
-    void UpdateCoinText()
+    public void UpdateCoinText()
     {
         coinText.text = PlayerPrefs.GetInt("Coin") + "";
     }
 
-    void UpdateLifeText()
+    public void UpdateLifeText()
     {
         lifeText.text = PlayerPrefs.GetInt("Life") + "";
     }
@@ -186,6 +207,9 @@ public class HomeManager : MonoBehaviour
             _life++;
             PlayerPrefs.SetInt("Life", _life);
             UpdateLive(_life);
+#if !UNITY_EDITOR && UNITY_WEBGL
+        Progress.Instance.Save();
+#endif
         }
         else if (_coin < 500)
             ShowMoreCoin();
@@ -193,23 +217,29 @@ public class HomeManager : MonoBehaviour
 
     public void MoreCoin()
     {
+#if !UNITY_EDITOR && UNITY_WEBGL
+        GetCoins();
+#endif
+#if UNITY_EDITOR
+        GetCoinsRewarded();
+#endif
+    }
+
+    public void GetCoinsRewarded()
+    {
+        Progress.Instance.UnpauseMusic();
         int _coin = PlayerPrefs.GetInt("Coin");
         _coin += 50;
         PlayerPrefs.SetInt("Coin", _coin);
+#if !UNITY_EDITOR && UNITY_WEBGL
+        Progress.Instance.Save();
+#endif
         UpdateCoinText();
-        /* AdsControl.Instance.PlayDelegateRewardVideo(delegate
-         {
-             //function
-             int _coin = PlayerPrefs.GetInt("Coin");
-             _coin += 50;
-             PlayerPrefs.SetInt("Coin", _coin);
-             UpdateCoinText();
-         }); */
-
     }
 
     public void UpdateLive(int life)
     {
+        UpdateLifeText();
         switch(life)
         {
 
@@ -307,35 +337,35 @@ public class HomeManager : MonoBehaviour
         if (_music == 1)
         {
             SoundManager.Instance.MusicSource.mute = false;
-            musicImg.sprite = onBtn;
+            musicImg.sprite = onMusicBtn;
         }
         else
         {
             SoundManager.Instance.MusicSource.mute = true;
-            musicImg.sprite = offBtn;
+            musicImg.sprite = offMusicBtn;
         }
 
         if(_sound == 1)
         {
             SoundManager.Instance.EffectsSource.mute = false;
-            soundImg.sprite = onBtn;
+            soundImg.sprite = onSoundBtn;
         }
         else
         {
             SoundManager.Instance.EffectsSource.mute = true;
-            soundImg.sprite = offBtn;
+            soundImg.sprite = offSoundBtn;
         }
-
+/*
         if (_vir == 1)
         {
             //SoundManager.Instance.EffectsSource.mute = false;
-            virImg.sprite = onBtn;
+            virImg.sprite = onMusicBtn;
         }
         else
         {
            // SoundManager.Instance.EffectsSource.mute = true;
-            virImg.sprite = offBtn;
-        }
+            virImg.sprite = offMusicBtn;
+        } */
     }
 
 }

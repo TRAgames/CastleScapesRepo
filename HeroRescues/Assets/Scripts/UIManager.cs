@@ -1,17 +1,32 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    public GameObject gameUIPanel, loadingPanel, resultPanel,failResultPanel,replayBtn,skipBtn,doubleCoinBtn;
+    [DllImport("__Internal")]
+    private static extern void SkipLevel();
+    [DllImport("__Internal")]
+    private static extern void DoubleCoins();
+
+    [DllImport("__Internal")]
+    private static extern void GetCoins();
+
+    [DllImport("__Internal")]
+    private static extern void FinishLevel();
+
+    public GameObject gameUIPanel, loadingPanel, resultPanel,failResultPanel,replayBtn,skipBtn,doubleCoinBtn, moreCoinPanel;
 
     public SpriteRenderer loadingMask;
 
     public static UIManager _instance;
 
-    public Text levelTextInGame,levelTextInResult,coinGamePlayText,coinGameOverText,coinBonusText;
+    public Text levelTextInGame,levelTextInResult,coinBonusText, levelTextInGameOver;
+
+    public TextMeshProUGUI coinGamePlayText, lifeGamePlayText, coinGameOverText, lifeGameOverText, coinGameWinText, lifeGameWinText;
 
     public Image[] iconLst = new Image[5];
 
@@ -22,6 +37,10 @@ public class UIManager : MonoBehaviour
     public Image[] iconResultLst = new Image[5];
 
     public Image[] doneResultLst = new Image[5];
+
+    public Image[] iconGameOverLst = new Image[5];
+
+    public Image[] doneGameOverLst = new Image[5];
 
     public GameObject frontLife1, frontLife2, frontLife3, frontLifeInGame1,frontLifeInGame2,frontLifeInGame3;
 
@@ -56,6 +75,9 @@ public class UIManager : MonoBehaviour
     public void LoadLevel(int _level)
     {
         PlayerPrefs.SetInt("CurrentLevel", _level);
+#if !UNITY_EDITOR && UNITY_WEBGL
+        Progress.Instance.Save();
+#endif
         HideLevelPanel();
        // homePanel.SetActive(false);
         StartCoroutine(Fading());
@@ -170,7 +192,15 @@ public class UIManager : MonoBehaviour
         coinBonusText.text = "+ " + GameManager.instance.bonusCoin;
         PlayerPrefs.SetInt("Coin", GameManager.instance.currentCoin + GameManager.instance.bonusCoin);
         PlayerPrefs.SetInt("Life", GameManager.instance._life);
+#if !UNITY_EDITOR && UNITY_WEBGL
+        Progress.Instance.Save();
+#endif
         yield return new WaitForSeconds(2.0f);
+
+        ShowCoinText(coinGameWinText, GameManager.instance.currentCoin);
+        UpdateLife(GameManager.instance._life);
+        ShowLifeText(lifeGameWinText, GameManager.instance._life);
+
         SoundManager.Instance.Play(SoundManager.Instance._levelPass);
         resultPanel.SetActive(true);
         //GameObject _hero = GameObject.FindGameObjectWithTag("Hero");
@@ -180,6 +210,9 @@ public class UIManager : MonoBehaviour
         {
             lockLevel++;
             PlayerPrefs.SetInt("LockLevel", lockLevel);
+#if !UNITY_EDITOR && UNITY_WEBGL
+        Progress.Instance.Save();
+#endif
         }
         SetIconResultInLevel();
         doneResultLst[(currentLevel -1) % 5].gameObject.SetActive(true);
@@ -188,56 +221,75 @@ public class UIManager : MonoBehaviour
         Camera.main.transform.localPosition = new Vector3(_hero.transform.localPosition.x,
         _hero.transform.localPosition.y, Camera.main.transform.position.z);
         Camera.main.orthographicSize = 3.0f;
-        //AdsControl.Instance.showAds();
+#if !UNITY_EDITOR && UNITY_WEBGL
+        if (currentLevel >= 5) FinishLevel();           
+#endif
         if (PlayerPrefs.GetInt("Bonus" + PlayerPrefs.GetInt("CurrentLevel")) == 1)
         {
             doubleCoinBtn.SetActive(false);
         }
     }
-    
-    public void RemoveAds()
-    {
 
+    public void OnSkipLevel()
+    {
+#if !UNITY_EDITOR && UNITY_WEBGL
+        SkipLevel();
+#endif
+#if UNITY_EDITOR
+        SkipLevelRewarded();
+#endif
     }
 
-    public void SkipLevel()
+    public void SkipLevelRewarded()
     {
-        AdsControl.Instance.PlayDelegateRewardVideo(delegate
+        Progress.Instance.UnpauseMusic();
+        int currentLevel = PlayerPrefs.GetInt("CurrentLevel");
+        int lockLevel = PlayerPrefs.GetInt("LockLevel");
+        if (currentLevel == lockLevel)
         {
-            //function
-            int currentLevel = PlayerPrefs.GetInt("CurrentLevel");
-            int lockLevel = PlayerPrefs.GetInt("LockLevel");
-            if (currentLevel == lockLevel)
-            {
-                lockLevel++;
-                PlayerPrefs.SetInt("LockLevel", lockLevel);
-            }
-            PlayerPrefs.SetInt("CurrentLevel", currentLevel + 1);
-            Application.LoadLevel("MainGame");
-        });
-        
+            lockLevel++;
+            PlayerPrefs.SetInt("LockLevel", lockLevel);
+        }
+        PlayerPrefs.SetInt("CurrentLevel", currentLevel + 1);
+#if !UNITY_EDITOR && UNITY_WEBGL
+        Progress.Instance.Save();
+#endif
+        Application.LoadLevel("MainGame");
     }
 
 
-    public void DoubleCoin()
+    public void OnDoubleCoin()
     {
-        AdsControl.Instance.PlayDelegateRewardVideo(delegate
-        {
-            PlayerPrefs.SetInt("Coin", GameManager.instance.currentCoin + GameManager.instance.bonusCoin);
-            GameManager.instance.bonusCoin = GameManager.instance.bonusCoin * 2;
-            coinBonusText.text = "+ " + GameManager.instance.bonusCoin;
-            PlayerPrefs.SetInt("Bonus" + PlayerPrefs.GetInt("CurrentLevel"),1);
-            doubleCoinBtn.SetActive(false);
-        });
+#if !UNITY_EDITOR && UNITY_WEBGL
+        DoubleCoins();
+#endif
+#if UNITY_EDITOR
+        DoubleCoinsRewarded();
+#endif
+    }
 
-       
+    public void DoubleCoinsRewarded()
+    {
+        Progress.Instance.UnpauseMusic();
+        PlayerPrefs.SetInt("Coin", GameManager.instance.currentCoin + GameManager.instance.bonusCoin);
+#if !UNITY_EDITOR && UNITY_WEBGL
+        Progress.Instance.Save();
+#endif
+        GameManager.instance.bonusCoin = GameManager.instance.bonusCoin * 2;
+        coinBonusText.text = "+ " + GameManager.instance.bonusCoin;
+        PlayerPrefs.SetInt("Bonus" + PlayerPrefs.GetInt("CurrentLevel"), 1);
+        doubleCoinBtn.SetActive(false);
 
+        ShowCoinText(coinGameWinText, GameManager.instance.currentCoin + GameManager.instance.bonusCoin);
     }
 
     public void NextLevel()
     {
         int currentLevel = PlayerPrefs.GetInt("CurrentLevel");
         PlayerPrefs.SetInt("CurrentLevel", currentLevel + 1);
+#if !UNITY_EDITOR && UNITY_WEBGL
+        Progress.Instance.Save();
+#endif
         Application.LoadLevel("MainGame");
     }
 
@@ -253,8 +305,9 @@ public class UIManager : MonoBehaviour
         yield return new WaitForSeconds(2.0f);
         ShowCoinText(coinGameOverText, GameManager.instance.currentCoin);
         UpdateLife(GameManager.instance._life);
+        ShowLifeText(lifeGameOverText, GameManager.instance._life);
 
-        if(GameManager.instance._life == 0)
+        if (GameManager.instance._life == 0)
         {
             replayBtn.SetActive(false);
             skipBtn.SetActive(false);
@@ -262,13 +315,23 @@ public class UIManager : MonoBehaviour
 
         PlayerPrefs.SetInt("Coin", GameManager.instance.currentCoin);
         PlayerPrefs.SetInt("Life", GameManager.instance._life);
-        SoundManager.Instance.Play(SoundManager.Instance._levelFail);
+#if !UNITY_EDITOR && UNITY_WEBGL
+        Progress.Instance.Save();
+#endif
+        //SoundManager.Instance.Play(SoundManager.Instance._levelFail);
         failResultPanel.SetActive(true);
+        int currentLevel = PlayerPrefs.GetInt("CurrentLevel");
+        SetIconGameOverInLevel();
+        doneResultLst[(currentLevel - 1) % 5].gameObject.SetActive(true);
+
+        levelTextInGameOver.text = "LEVEL " + currentLevel.ToString();
         GameObject _hero = GameObject.FindGameObjectWithTag("Hero");
         Camera.main.transform.localPosition = new Vector3(_hero.transform.localPosition.x,
         _hero.transform.localPosition.y, Camera.main.transform.position.z);
         Camera.main.orthographicSize = 3.0f;
-        //AdsControl.Instance.showAds();
+#if !UNITY_EDITOR && UNITY_WEBGL
+        if (currentLevel >= 5) FinishLevel();           
+#endif
     }
 
     public void BuyMoreLife()
@@ -279,12 +342,21 @@ public class UIManager : MonoBehaviour
             GameManager.instance._life++;
             PlayerPrefs.SetInt("Coin", GameManager.instance.currentCoin);
             PlayerPrefs.SetInt("Life", GameManager.instance._life);
+#if !UNITY_EDITOR && UNITY_WEBGL
+        Progress.Instance.Save();
+#endif
             ShowCoinText(coinGameOverText, GameManager.instance.currentCoin);
+            ShowLifeText(lifeGameOverText, GameManager.instance._life);
             UpdateLife(GameManager.instance._life);
             replayBtn.SetActive(true);
             skipBtn.SetActive(true);
         }
-    }    
+        else
+        {
+            ShowMoreCoin();
+        }
+    }
+
 
     void SetIconFromLevelType(LevelManager.LEVEL_TYPE _type, Image _coin)
     {
@@ -303,7 +375,40 @@ public class UIManager : MonoBehaviour
                 _coin.sprite = spriteLst[3];
                 break;
         }
-    }    
+    }
+
+    public void ShowMoreCoin()
+    {
+        moreCoinPanel.SetActive(true);
+    }
+
+    public void OnMoreCoin()
+    {
+#if !UNITY_EDITOR && UNITY_WEBGL
+        GetCoins();
+#endif
+#if UNITY_EDITOR
+        GetCoinsRewarded();
+#endif
+    }
+
+    public void HideMoreCoin()
+    {
+        moreCoinPanel.GetComponent<Animator>().SetTrigger("Close");
+    }
+
+    public void GetCoinsRewarded()
+    {
+        Progress.Instance.UnpauseMusic();
+        int _coin = PlayerPrefs.GetInt("Coin");
+        _coin += 50;
+        PlayerPrefs.SetInt("Coin", _coin);
+#if !UNITY_EDITOR && UNITY_WEBGL
+        Progress.Instance.Save();
+#endif
+        GameManager.instance.currentCoin = _coin;
+        ShowCoinText(coinGameOverText, _coin);
+    }
 
     void SetIconInLevel()
     {
@@ -337,15 +442,23 @@ public class UIManager : MonoBehaviour
         }    
     }
 
-    public void ShowCoinText(Text _coinText, int coin)
+    public void ShowCoinText(TextMeshProUGUI _coinText, int coin)
     {
         _coinText.text = coin.ToString();
+    }
+
+    public void ShowLifeText(TextMeshProUGUI _lifeText, int life)
+    {
+        _lifeText.text = life.ToString();
     }
 
 
     public void UpdateLife(int life)
     {
-       switch(life)
+        lifeGamePlayText.text = life.ToString();
+        lifeGameOverText.text = life.ToString();
+        lifeGameWinText.text = life.ToString();
+        switch (life)
         {
             case 0:
                
@@ -427,8 +540,44 @@ public class UIManager : MonoBehaviour
                 iconResultLst[i].color = new Color(0.25f, 0.25f, 0.25f, 1.0f);
             }
         }
+
+
     }
 
-    
+    void SetIconGameOverInLevel()
+    {
+        int currentLevel = PlayerPrefs.GetInt("CurrentLevel");
+        int _index = Mathf.CeilToInt(currentLevel / 5);
+        if (currentLevel % 5 == 0)
+            _index = currentLevel / 5 - 1;
+        Debug.Log("INDEX " + _index);
+        SetIconFromLevelType(LevelManager._instance.levelTypeLst[_index * 5], iconGameOverLst[0]);
+        SetIconFromLevelType(LevelManager._instance.levelTypeLst[_index * 5 + 1], iconGameOverLst[1]);
+        SetIconFromLevelType(LevelManager._instance.levelTypeLst[_index * 5 + 2], iconGameOverLst[2]);
+        SetIconFromLevelType(LevelManager._instance.levelTypeLst[_index * 5 + 3], iconGameOverLst[3]);
+        SetIconFromLevelType(LevelManager._instance.levelTypeLst[_index * 5 + 4], iconGameOverLst[4]);
+
+        int _offset = (currentLevel - 1) % 5;
+
+        for (int i = 0; i < 5; i++)
+        {
+            if (i < _offset)
+                doneGameOverLst[i].gameObject.SetActive(true);
+            else if (i == _offset)
+            {
+                doneGameOverLst[i].gameObject.SetActive(false);
+                iconGameOverLst[i].color = new Color(1, 1, 1, 1);
+            }
+            else
+            {
+                doneGameOverLst[i].gameObject.SetActive(false);
+                iconGameOverLst[i].color = new Color(0.25f, 0.25f, 0.25f, 1.0f);
+            }
+        }
+
+
+    }
+
+
 
 }
