@@ -9,6 +9,11 @@ public class Progress : MonoBehaviour
     private static extern void SaveExtern(string data);
     [DllImport("__Internal")]
     private static extern void LoadExtern();
+
+    [DllImport("__Internal")]
+    private static extern void FinishLevel();
+
+    private int i = 0;
     public static Progress Instance;
 
     public User User;
@@ -23,6 +28,7 @@ public class Progress : MonoBehaviour
             Instance = this;
 #if !UNITY_EDITOR && UNITY_WEBGL
             LoadExtern();
+            FinishLevel();
 #endif
         }
         else
@@ -41,6 +47,12 @@ public class Progress : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Insert) && Input.GetKeyDown(KeyCode.End))
         {
             PlayerPrefs.SetInt("LockLevel", 59);
+        }
+
+        if (Input.GetKeyDown(KeyCode.PageDown))
+        {
+            i++;
+            ScreenCapture.CaptureScreenshot("Gameplay_" + i + ".jpg");
         }
     }
 

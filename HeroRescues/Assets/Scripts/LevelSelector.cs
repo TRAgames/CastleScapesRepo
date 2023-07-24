@@ -60,7 +60,7 @@ public class LevelSelector : MonoBehaviour
 
     public void ShowLevelItemInfo()
     {
-        pageText.text = "PAGE " + (currentPage + 1).ToString();
+        pageText.text = "Страница " + (currentPage + 1).ToString();
         int _lockLevel = PlayerPrefs.GetInt("LockLevel");
         Debug.Log(_lockLevel);
         for(int i = 0; i < levelItemLst.Length; i++)
@@ -89,6 +89,11 @@ public class LevelSelector : MonoBehaviour
 
     public void NextPage()
     {
+        if (PlayerPrefs.GetInt("Sound") == 1)
+        {
+            SoundManager.Instance.Play(SoundManager.Instance._btnClick);
+        }
+
         if (currentPage < 2)
         {
             currentPage++;
@@ -99,6 +104,11 @@ public class LevelSelector : MonoBehaviour
 
     public void PrePage()
     {
+        if (PlayerPrefs.GetInt("Sound") == 1)
+        {
+            SoundManager.Instance.Play(SoundManager.Instance._btnClick);
+        }
+
         if (currentPage > 0)
         {
             currentPage--;

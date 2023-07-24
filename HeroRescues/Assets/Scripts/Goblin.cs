@@ -224,7 +224,9 @@ public class Goblin : MonoBehaviour
 		if (collision.gameObject.tag == "Princess")
 		{
 			SwitchState(PlayerState.Attack);
-			Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Hero"), LayerMask.NameToLayer("Goblin"));
+            if (GameManager.instance._life > 0)
+                GameManager.instance._life--;
+            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Hero"), LayerMask.NameToLayer("Goblin"));
 			CancelInvoke("SeekTarget");
 			moveHorizontal = 0.0f;
 			StartCoroutine(EndTheLevel());

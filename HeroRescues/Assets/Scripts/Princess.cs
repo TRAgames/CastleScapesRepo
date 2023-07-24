@@ -104,7 +104,10 @@ public class Princess : MonoBehaviour
 				SwitchState(PlayerState.Die);
 				GameObject _fire = Instantiate(fireEffect, transform.position, transform.rotation);
 				_fire.GetComponent<ParticleSystem>().Play();
-				Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Hero"), LayerMask.NameToLayer("Lava"));
+                Debug.Log(GameManager.instance._life);
+                if (GameManager.instance._life > 0)
+                    GameManager.instance._life--;
+                Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Hero"), LayerMask.NameToLayer("Lava"));
 				GameManager.instance.GameOver();
 			}
 			else
@@ -118,11 +121,12 @@ public class Princess : MonoBehaviour
 			if (!isDied)
 			{
 				isDied = true;
-				SwitchState(PlayerState.Die);		
+				Debug.Log(GameManager.instance._life);
+                if (GameManager.instance._life > 0)
+                    GameManager.instance._life--;
+                SwitchState(PlayerState.Die);		
 				GameManager.instance.GameOver();
 			}
-			
-
 		}
 
 		if (collision.gameObject.tag == "Hero")

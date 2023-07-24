@@ -134,10 +134,10 @@ public class HomeManager : MonoBehaviour
         Application.LoadLevel("MainGame");
 
         //yield return new WaitForSeconds(0.2f);
-        for (float i = 1; i >= 0; i -= Time.deltaTime * 0.35f)
+        for (float i = 1; i >= 0; i -= Time.deltaTime * 0.55f)
         {
             // set color with i as alpha
-            loadingMask.color = new Color(0, 0, 0, i);
+            loadingMask.color = new Color(0.7058824f, 0.8392158f, 0.8745099f, i);
             yield return null;
         }
         loadingPanel.SetActive(false);
@@ -280,6 +280,11 @@ public class HomeManager : MonoBehaviour
 
     public void ToggleMusic()
     {
+        if (PlayerPrefs.GetInt("Sound") == 1)
+        {
+            SoundManager.Instance.Play(SoundManager.Instance._btnClick);
+        }
+
         int _music = PlayerPrefs.GetInt("Music");
 
         if(_music == 1)
@@ -296,6 +301,11 @@ public class HomeManager : MonoBehaviour
 
     public void ToggleSound()
     {
+        if (PlayerPrefs.GetInt("Sound") == 1)
+        {
+            SoundManager.Instance.Play(SoundManager.Instance._btnClick);
+        }
+
         int _sound = PlayerPrefs.GetInt("Sound");
 
         if(_sound == 1)

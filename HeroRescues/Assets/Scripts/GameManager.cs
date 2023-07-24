@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
         _totalGoblinKilled = 0;
         if(GameObject.FindGameObjectWithTag("Goblin") != null)
         _totalGoblin = GameObject.FindGameObjectsWithTag("Goblin").Length;
+        Debug.Log(currentCoin);
         UIManager._instance.ShowCoinText(UIManager._instance.coinGamePlayText, currentCoin);
         UIManager._instance.UpdateLife(_life);
     }

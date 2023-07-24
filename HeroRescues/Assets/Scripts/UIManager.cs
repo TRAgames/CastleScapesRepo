@@ -24,7 +24,7 @@ public class UIManager : MonoBehaviour
 
     public static UIManager _instance;
 
-    public Text levelTextInGame,levelTextInResult,coinBonusText, levelTextInGameOver;
+    public TextMeshProUGUI levelTextInGame,levelTextInResult,coinBonusText, levelTextInGameOver;
 
     public TextMeshProUGUI coinGamePlayText, lifeGamePlayText, coinGameOverText, lifeGameOverText, coinGameWinText, lifeGameWinText;
 
@@ -84,14 +84,14 @@ public class UIManager : MonoBehaviour
     {
      
         loadingPanel.SetActive(true);
-        levelTextInGame.text = "LEVEL " + PlayerPrefs.GetInt("CurrentLevel");
-        //yield return new WaitForSeconds(0.2f);
-        for (float i = 1; i >= 0; i -= Time.deltaTime * 0.35f)
+        levelTextInGame.text = "Уровень " + PlayerPrefs.GetInt("CurrentLevel");
+        yield return new WaitForSeconds(0.2f);
+      /*  for (float i = 1; i >= 0; i -= Time.deltaTime * 0.99f)
         {
             // set color with i as alpha
-            loadingMask.color = new Color(0, 0, 0, i);
+            loadingMask.color = new Color(0.7058824f, 0.8392158f, 0.8745099f, i);
             yield return null;
-        }
+        } */
         loadingPanel.SetActive(false);
     }
 
@@ -101,7 +101,7 @@ public class UIManager : MonoBehaviour
         loadingPanel.SetActive(true);
         LevelManager._instance.LoadLevel();
         gameUIPanel.SetActive(true);
-        levelTextInGame.text = "LEVEL " + PlayerPrefs.GetInt("CurrentLevel");
+        levelTextInGame.text = "Уровень " + PlayerPrefs.GetInt("CurrentLevel");
         //yield return new WaitForSeconds(0.2f);
         for (float i = 1; i >= 0; i -= Time.deltaTime * 0.35f)
         {
@@ -150,6 +150,10 @@ public class UIManager : MonoBehaviour
         Camera.main.transform.localPosition = Vector3.zero;
         Camera.main.orthographicSize = 5.0f;
         */
+        if (PlayerPrefs.GetInt("Sound") == 1)
+        {
+            SoundManager.Instance.Play(SoundManager.Instance._btnClick);
+        }
         Application.LoadLevel("MainHome");
     }    
 
@@ -235,7 +239,7 @@ public class UIManager : MonoBehaviour
         }
         SetIconResultInLevel();
         doneResultLst[(currentLevel -1) % 5].gameObject.SetActive(true);
-        levelTextInResult.text = "LEVEL " + currentLevel.ToString();
+        levelTextInResult.text = "Уровень " + currentLevel.ToString();
         GameObject _hero = GameObject.FindGameObjectWithTag("Hero");
         Camera.main.transform.localPosition = new Vector3(_hero.transform.localPosition.x,
         _hero.transform.localPosition.y, Camera.main.transform.position.z);
@@ -302,16 +306,21 @@ public class UIManager : MonoBehaviour
 
     public void DoubleCoinsRewarded()
     {
-        PlayerPrefs.SetInt("Coin", GameManager.instance.currentCoin + GameManager.instance.bonusCoin);
-#if !UNITY_EDITOR && UNITY_WEBGL
-        Progress.Instance.Save();
-#endif
+
         GameManager.instance.bonusCoin = GameManager.instance.bonusCoin * 2;
         coinBonusText.text = "+ " + GameManager.instance.bonusCoin;
         PlayerPrefs.SetInt("Bonus" + PlayerPrefs.GetInt("CurrentLevel"), 1);
         doubleCoinBtn.SetActive(false);
 
+        PlayerPrefs.SetInt("Coin", GameManager.instance.currentCoin + GameManager.instance.bonusCoin);
+
         ShowCoinText(coinGameWinText, GameManager.instance.currentCoin + GameManager.instance.bonusCoin);
+        ShowCoinText(coinGamePlayText, GameManager.instance.currentCoin + GameManager.instance.bonusCoin);
+
+#if !UNITY_EDITOR && UNITY_WEBGL
+        Progress.Instance.Save();
+#endif
+
     }
 
     public void NextLevel()
@@ -363,7 +372,7 @@ public class UIManager : MonoBehaviour
         SetIconGameOverInLevel();
         doneResultLst[(currentLevel - 1) % 5].gameObject.SetActive(true);
 
-        levelTextInGameOver.text = "LEVEL " + currentLevel.ToString();
+        levelTextInGameOver.text = "Уровень " + currentLevel.ToString();
         GameObject _hero = GameObject.FindGameObjectWithTag("Hero");
         Camera.main.transform.localPosition = new Vector3(_hero.transform.localPosition.x,
         _hero.transform.localPosition.y, Camera.main.transform.position.z);
