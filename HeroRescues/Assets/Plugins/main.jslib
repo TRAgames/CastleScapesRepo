@@ -34,10 +34,10 @@ ysdk.adv.showRewardedVideo({
           myGameInstance.SendMessage('Progress', 'PauseMusic');
         },
         onRewarded: () => {
-          console.log('Rewarded!');
+          myGameInstance.SendMessage('Canvas', 'SkipLevelRewarded');
         },
         onClose: () => {
-          myGameInstance.SendMessage('Canvas', 'SkipLevelRewarded');
+          myGameInstance.SendMessage('Progress', 'UnpauseMusic');
         }, 
         onError: (e) => {
           console.log('Error while open video ad:', e);
@@ -53,10 +53,10 @@ ysdk.adv.showRewardedVideo({
           myGameInstance.SendMessage('Progress', 'PauseMusic');
         },
         onRewarded: () => {
-          console.log('Rewarded!');
-        },
-        onClose: () => {
           myGameInstance.SendMessage('Canvas', 'GetCoinsRewarded');
+        },
+        onClose: () => {      
+          myGameInstance.SendMessage('Progress', 'UnpauseMusic');
         }, 
         onError: (e) => {
           console.log('Error while open video ad:', e);
@@ -72,10 +72,10 @@ ysdk.adv.showRewardedVideo({
           myGameInstance.SendMessage('Progress', 'PauseMusic');
         },
         onRewarded: () => {
-          console.log('Rewarded!');
-        },
-        onClose: () => {
           myGameInstance.SendMessage('Canvas', 'DoubleCoinsRewarded');
+        },
+        onClose: () => {   
+          myGameInstance.SendMessage('Progress', 'UnpauseMusic');
         }, 
         onError: (e) => {
           console.log('Error while open video ad:', e);

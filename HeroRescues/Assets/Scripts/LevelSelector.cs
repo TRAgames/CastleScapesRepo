@@ -15,7 +15,8 @@ public class LevelSelector : MonoBehaviour
     public Sprite unlockLevel,lockLevel;
     private void Awake()
     {
-       currentPage = (int)(PlayerPrefs.GetInt("LockLevel")/ 20);
+        currentPage = (int)(PlayerPrefs.GetInt("LockLevel")/ 20);
+        if (currentPage == 3) currentPage = 2;
     }
     // Start is called before the first frame update
     void Start()
@@ -29,7 +30,7 @@ public class LevelSelector : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     void LoadItem()
@@ -61,6 +62,7 @@ public class LevelSelector : MonoBehaviour
     {
         pageText.text = "PAGE " + (currentPage + 1).ToString();
         int _lockLevel = PlayerPrefs.GetInt("LockLevel");
+        Debug.Log(_lockLevel);
         for(int i = 0; i < levelItemLst.Length; i++)
         {
             levelItemLst[i].Find("LevelText " + "(" + i + ")").GetComponent<TextMeshProUGUI>().text = (i + 1 + levelItemLst.Length * currentPage).ToString() + "";
@@ -87,7 +89,7 @@ public class LevelSelector : MonoBehaviour
 
     public void NextPage()
     {
-        if (currentPage < totalPage - 1)
+        if (currentPage < 2)
         {
             currentPage++;
             ShowLevelItemInfo();

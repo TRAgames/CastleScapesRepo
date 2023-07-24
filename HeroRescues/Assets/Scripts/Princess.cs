@@ -84,7 +84,7 @@ public class Princess : MonoBehaviour
 				Debug.Log("PLAY DIE");
 				break;
 			case PlayerState.Win:
-				_skeleton.AnimationState.SetAnimation(0, "win", true);
+				_skeleton.AnimationState.SetAnimation(0, "win_loop", true);
 				break;
 		}
 	}

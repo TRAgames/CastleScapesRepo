@@ -40,7 +40,7 @@ public class Progress : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Insert) && Input.GetKeyDown(KeyCode.End))
         {
-            PlayerPrefs.SetInt("LockLevel", 99);
+            PlayerPrefs.SetInt("LockLevel", 59);
         }
     }
 

@@ -18,7 +18,7 @@ public class UIManager : MonoBehaviour
     [DllImport("__Internal")]
     private static extern void FinishLevel();
 
-    public GameObject gameUIPanel, loadingPanel, resultPanel,failResultPanel,replayBtn,skipBtn,doubleCoinBtn, moreCoinPanel;
+    public GameObject gameUIPanel, loadingPanel, resultPanel,failResultPanel,replayBtn,skipBtn,doubleCoinBtn, moreCoinPanel, moreLifePanel;
 
     public SpriteRenderer loadingMask;
 
@@ -63,10 +63,6 @@ public class UIManager : MonoBehaviour
         
     }
 
-    public void ShowLevelPanel()
-    {
-        //levelSelector.SetActive(true);
-    }
     public void HideLevelPanel()
     {
        // levelSelector.GetComponent<Animator>().SetTrigger("Close");
@@ -168,9 +164,32 @@ public class UIManager : MonoBehaviour
         GameManager.instance.ResetPara();
         StartCoroutine(FadingReplay());
         */
-        Application.LoadLevel("MainGame");
+        if (PlayerPrefs.GetInt("Sound") == 1)
+        {
+            SoundManager.Instance.Play(SoundManager.Instance._btnClick);
+        }
+        ShowLevelPanel();
     }
 
+    public void ShowLevelPanel()
+    {
+        if (PlayerPrefs.GetInt("Life") > 0)
+            Application.LoadLevel("MainGame");
+        else
+            ShowOutOfLife();
+    }
+
+    public void ShowOutOfLife()
+    {
+        moreLifePanel.SetActive(true);
+        int _life = PlayerPrefs.GetInt("Life");
+        UpdateLife(_life);
+    }
+
+    public void HideOutOfLife()
+    {
+        moreLifePanel.GetComponent<Animator>().SetTrigger("Close");
+    }
 
     public void ShowGameClear()
     {
@@ -232,6 +251,10 @@ public class UIManager : MonoBehaviour
 
     public void OnSkipLevel()
     {
+        if (PlayerPrefs.GetInt("Sound") == 1)
+        {
+            SoundManager.Instance.Play(SoundManager.Instance._btnClick);
+        }
 #if !UNITY_EDITOR && UNITY_WEBGL
         SkipLevel();
 #endif
@@ -242,15 +265,20 @@ public class UIManager : MonoBehaviour
 
     public void SkipLevelRewarded()
     {
-        Progress.Instance.UnpauseMusic();
         int currentLevel = PlayerPrefs.GetInt("CurrentLevel");
         int lockLevel = PlayerPrefs.GetInt("LockLevel");
-        if (currentLevel == lockLevel)
+        
+        if (currentLevel == 60)
+            PlayerPrefs.SetInt("CurrentLevel", 1);
+        else
         {
-            lockLevel++;
-            PlayerPrefs.SetInt("LockLevel", lockLevel);
-        }
-        PlayerPrefs.SetInt("CurrentLevel", currentLevel + 1);
+            if (currentLevel == lockLevel)
+            {
+                lockLevel++;
+                PlayerPrefs.SetInt("LockLevel", lockLevel);
+            }
+            PlayerPrefs.SetInt("CurrentLevel", currentLevel + 1);
+        }       
 #if !UNITY_EDITOR && UNITY_WEBGL
         Progress.Instance.Save();
 #endif
@@ -260,6 +288,10 @@ public class UIManager : MonoBehaviour
 
     public void OnDoubleCoin()
     {
+        if (PlayerPrefs.GetInt("Sound") == 1)
+        {
+            SoundManager.Instance.Play(SoundManager.Instance._btnClick);
+        }
 #if !UNITY_EDITOR && UNITY_WEBGL
         DoubleCoins();
 #endif
@@ -270,7 +302,6 @@ public class UIManager : MonoBehaviour
 
     public void DoubleCoinsRewarded()
     {
-        Progress.Instance.UnpauseMusic();
         PlayerPrefs.SetInt("Coin", GameManager.instance.currentCoin + GameManager.instance.bonusCoin);
 #if !UNITY_EDITOR && UNITY_WEBGL
         Progress.Instance.Save();
@@ -285,8 +316,16 @@ public class UIManager : MonoBehaviour
 
     public void NextLevel()
     {
+        if (PlayerPrefs.GetInt("Sound") == 1)
+        {
+            SoundManager.Instance.Play(SoundManager.Instance._btnClick);
+        }
+
         int currentLevel = PlayerPrefs.GetInt("CurrentLevel");
-        PlayerPrefs.SetInt("CurrentLevel", currentLevel + 1);
+        if (currentLevel == 60)
+            PlayerPrefs.SetInt("CurrentLevel", 1);
+        else
+            PlayerPrefs.SetInt("CurrentLevel", currentLevel + 1);
 #if !UNITY_EDITOR && UNITY_WEBGL
         Progress.Instance.Save();
 #endif
@@ -309,7 +348,7 @@ public class UIManager : MonoBehaviour
 
         if (GameManager.instance._life == 0)
         {
-            replayBtn.SetActive(false);
+            //replayBtn.SetActive(false);
             skipBtn.SetActive(false);
         }    
 
@@ -318,7 +357,7 @@ public class UIManager : MonoBehaviour
 #if !UNITY_EDITOR && UNITY_WEBGL
         Progress.Instance.Save();
 #endif
-        //SoundManager.Instance.Play(SoundManager.Instance._levelFail);
+        SoundManager.Instance.Play(SoundManager.Instance._levelFail);
         failResultPanel.SetActive(true);
         int currentLevel = PlayerPrefs.GetInt("CurrentLevel");
         SetIconGameOverInLevel();
@@ -336,6 +375,11 @@ public class UIManager : MonoBehaviour
 
     public void BuyMoreLife()
     {
+        if (PlayerPrefs.GetInt("Sound") == 1)
+        {
+            SoundManager.Instance.Play(SoundManager.Instance._btnClick);
+        }
+
         if (GameManager.instance.currentCoin >= 500 & GameManager.instance._life < 3)
         {
             GameManager.instance.currentCoin -= 500;
@@ -348,7 +392,7 @@ public class UIManager : MonoBehaviour
             ShowCoinText(coinGameOverText, GameManager.instance.currentCoin);
             ShowLifeText(lifeGameOverText, GameManager.instance._life);
             UpdateLife(GameManager.instance._life);
-            replayBtn.SetActive(true);
+            //replayBtn.SetActive(true);
             skipBtn.SetActive(true);
         }
         else
@@ -384,6 +428,11 @@ public class UIManager : MonoBehaviour
 
     public void OnMoreCoin()
     {
+        if (PlayerPrefs.GetInt("Sound") == 1)
+        {
+            SoundManager.Instance.Play(SoundManager.Instance._btnClick);
+        }
+
 #if !UNITY_EDITOR && UNITY_WEBGL
         GetCoins();
 #endif
@@ -399,7 +448,6 @@ public class UIManager : MonoBehaviour
 
     public void GetCoinsRewarded()
     {
-        Progress.Instance.UnpauseMusic();
         int _coin = PlayerPrefs.GetInt("Coin");
         _coin += 50;
         PlayerPrefs.SetInt("Coin", _coin);
@@ -577,7 +625,5 @@ public class UIManager : MonoBehaviour
 
 
     }
-
-
 
 }

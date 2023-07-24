@@ -227,7 +227,6 @@ public class HomeManager : MonoBehaviour
 
     public void GetCoinsRewarded()
     {
-        Progress.Instance.UnpauseMusic();
         int _coin = PlayerPrefs.GetInt("Coin");
         _coin += 50;
         PlayerPrefs.SetInt("Coin", _coin);

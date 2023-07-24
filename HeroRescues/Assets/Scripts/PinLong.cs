@@ -262,7 +262,7 @@ public class PinLong : MonoBehaviour
 			}
 		}
 		transform.position = Vector3.MoveTowards(transform.position , waypoints[current], Time.deltaTime * speed);
-	}
+    }
 
 	IEnumerator Shake(Transform thisTransform)
 	{
@@ -325,6 +325,7 @@ public class PinLong : MonoBehaviour
 
     public void OnMouseDown()
     {
-		_canMove = true;
+        SoundManager.Instance.Play(SoundManager.Instance._pin);
+        _canMove = true;
     }
 }
