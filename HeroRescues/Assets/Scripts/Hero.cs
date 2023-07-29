@@ -446,6 +446,7 @@ public class Hero : MonoBehaviour
 					GameManager.instance._life--;
 				UIManager._instance.UpdateLife(GameManager.instance._life);
 				GameManager.instance.GameOver();
+				Camera.main.cullingMask = Progress.Instance.DesireMask;
 			}
 			else
 				Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Hero"), LayerMask.NameToLayer("Lava"));

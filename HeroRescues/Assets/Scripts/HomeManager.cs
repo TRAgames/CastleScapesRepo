@@ -197,6 +197,11 @@ public class HomeManager : MonoBehaviour
 
     public void MoreLive()
     {
+        if (PlayerPrefs.GetInt("Sound") == 1)
+        {
+            SoundManager.Instance.Play(SoundManager.Instance._btnClick);
+        }
+
         int _coin = PlayerPrefs.GetInt("Coin");
         int _life = PlayerPrefs.GetInt("Life");
         if (_coin >= 500 && _life < 3)
@@ -217,6 +222,10 @@ public class HomeManager : MonoBehaviour
 
     public void MoreCoin()
     {
+        if (PlayerPrefs.GetInt("Sound") == 1)
+        {
+            SoundManager.Instance.Play(SoundManager.Instance._btnClick);
+        }
 #if !UNITY_EDITOR && UNITY_WEBGL
         GetCoins();
 #endif
@@ -234,6 +243,18 @@ public class HomeManager : MonoBehaviour
         Progress.Instance.Save();
 #endif
         UpdateCoinText();
+    }
+
+    private IEnumerator LockButtonRoutine(Button button)
+    {
+        button.interactable = false;
+        yield return new WaitForSeconds(0.5f);
+        button.interactable = true;
+    }
+
+    public void LockButton(Button button)
+    {
+        StartCoroutine(LockButtonRoutine(button));
     }
 
     public void UpdateLive(int life)

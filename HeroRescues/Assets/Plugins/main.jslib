@@ -15,16 +15,41 @@ RateGame: function () {
 },
 
 SaveExtern: function (data) {
+        try {
+
     var dataString = UTF8ToString(data);
     var myobj = JSON.parse(dataString);
     player.setData(myobj);
+
+    } catch (e) {
+
+myGameInstance.SendMessage('Progress','SaveEmpty');
+
+        }
+},
+
+Log: function (data) {
+    console.log(data);
 },
 
 LoadExtern: function () {
-    player.getData().then(_data => {
-        const myJSON = JSON.stringify(_data);
-        myGameInstance.SendMessage('Progress','Load',myJSON);
-    });
+    try {
+        if (!PlayerExist) {
+           myGameInstance.SendMessage('Progress','LoadEmpty'); 
+       } else {
+        console.log('LoadExternBeforeGetData');
+        player.getData().then(_data => {
+            const myJSON = JSON.stringify(_data);
+            console.log('LoadExtern');
+            myGameInstance.SendMessage('Progress','Load',myJSON);        
+        });
+       }
+
+} catch (e) {
+    
+    myGameInstance.SendMessage('Progress','LoadEmpty');
+}
+
 },
 
 SkipLevel: function () {

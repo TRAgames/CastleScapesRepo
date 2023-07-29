@@ -20,6 +20,8 @@ public class UIManager : MonoBehaviour
 
     public GameObject gameUIPanel, loadingPanel, resultPanel,failResultPanel,replayBtn,skipBtn,doubleCoinBtn, moreCoinPanel, moreLifePanel;
 
+    public Button btnMenuGameplay, btnReplayGameplay;
+
     public SpriteRenderer loadingMask;
 
     public static UIManager _instance;
@@ -344,6 +346,8 @@ public class UIManager : MonoBehaviour
 
     public void ShowGameOver()
     {
+        btnMenuGameplay.interactable = false;
+        btnReplayGameplay.interactable = false;
         StartCoroutine(ShowGameOverIE());
     }
 
@@ -368,6 +372,8 @@ public class UIManager : MonoBehaviour
 #endif
         SoundManager.Instance.Play(SoundManager.Instance._levelFail);
         failResultPanel.SetActive(true);
+        btnMenuGameplay.interactable = true;
+        btnReplayGameplay.interactable = true;
         int currentLevel = PlayerPrefs.GetInt("CurrentLevel");
         SetIconGameOverInLevel();
         doneResultLst[(currentLevel - 1) % 5].gameObject.SetActive(true);
@@ -448,6 +454,18 @@ public class UIManager : MonoBehaviour
 #if UNITY_EDITOR
         GetCoinsRewarded();
 #endif
+    }
+
+    private IEnumerator LockButtonRoutine(Button button)
+    {
+        button.interactable = false;
+        yield return new WaitForSeconds(0.5f);
+        button.interactable = true;
+    }
+
+    public void LockButton(Button button)
+    {
+        StartCoroutine(LockButtonRoutine(button));
     }
 
     public void HideMoreCoin()

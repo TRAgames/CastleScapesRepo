@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Progress : MonoBehaviour
 {
@@ -12,6 +13,10 @@ public class Progress : MonoBehaviour
 
     [DllImport("__Internal")]
     private static extern void FinishLevel();
+    [DllImport("__Internal")]
+    private static extern void Log(bool data);
+
+    [SerializeField] private LayerMask _desireMask;
 
     private int i = 0;
     public static Progress Instance;
@@ -20,14 +25,15 @@ public class Progress : MonoBehaviour
 
     public bool IsAdsShowing = false;
 
+    public LayerMask DesireMask { get => _desireMask; set => _desireMask = value; }
+
     private void Awake()
     {
         if (Instance == null)
         {
             DontDestroyOnLoad(gameObject);
             Instance = this;
-#if !UNITY_EDITOR && UNITY_WEBGL
-            LoadExtern();
+#if !UNITY_EDITOR && UNITY_WEBGL      
             FinishLevel();
 #endif
         }
@@ -37,8 +43,16 @@ public class Progress : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+#if !UNITY_EDITOR && UNITY_WEBGL
+        LoadExtern();
+#endif
+    }
+
     private void Update()
     {
+
         if (Input.GetKeyDown(KeyCode.Backspace) && Input.GetKeyDown(KeyCode.Home))
         {
             DeleteAllData();
@@ -54,12 +68,18 @@ public class Progress : MonoBehaviour
             i++;
             ScreenCapture.CaptureScreenshot("Gameplay_" + i + ".jpg");
         }
+
     }
 
     public void Save()
     {
         string jsonString = JsonUtility.ToJson(User.GetCurrentUser());
         SaveExtern(jsonString);
+    }
+
+    public void SaveEmpty()
+    {
+        User = User.GetCurrentUser();
     }
 
     public void Load(string value)
@@ -77,10 +97,38 @@ public class Progress : MonoBehaviour
             PlayerPrefs.SetInt("LockLevel", 1);
             Save();
         }
+
         HomeManager.Instance.UpdateCoinText();
         HomeManager.Instance.UpdateLifeText();
         HomeManager.Instance.UpdateSetting();
     }
+
+    public void LoadEmpty()
+    {
+        User = new User();
+        if (PlayerPrefs.GetInt("StartGame") == 0)
+        {            
+            PlayerPrefs.SetInt("StartGame", 1);
+            PlayerPrefs.SetInt("Coin", 200);
+            PlayerPrefs.SetInt("Life", 3);
+            PlayerPrefs.SetInt("Sound", 1);
+            PlayerPrefs.SetInt("Music", 1);
+            PlayerPrefs.SetInt("Vir", 1);
+            PlayerPrefs.SetInt("LockLevel", 1);
+            SaveEmpty();
+        }
+        else
+        {
+            SaveEmpty();
+        }
+
+        HomeManager.Instance.UpdateCoinText();
+        HomeManager.Instance.UpdateLifeText();
+        HomeManager.Instance.UpdateSetting();
+
+
+    }
+
 
     private void DeleteAllData()
     {
