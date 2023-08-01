@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviour
         if (isGameOver)
             return;
         isGameOver = true;
+        Camera.main.cullingMask = Progress.Instance.DesireMask;
         UIManager._instance.ShowGameOver();
     }
 
@@ -57,6 +58,7 @@ public class GameManager : MonoBehaviour
         if (isGameWin)
             return;
         isGameWin = true;
+        Camera.main.cullingMask = Progress.Instance.DesireMask;
         UIManager._instance.ShowGameClear();
     }
 

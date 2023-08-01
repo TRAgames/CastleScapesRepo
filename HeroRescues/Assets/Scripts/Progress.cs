@@ -106,6 +106,7 @@ public class Progress : MonoBehaviour
     public void LoadEmpty()
     {
         User = new User();
+        User = User.GetCurrentUser();
         if (PlayerPrefs.GetInt("StartGame") == 0)
         {            
             PlayerPrefs.SetInt("StartGame", 1);
@@ -115,18 +116,12 @@ public class Progress : MonoBehaviour
             PlayerPrefs.SetInt("Music", 1);
             PlayerPrefs.SetInt("Vir", 1);
             PlayerPrefs.SetInt("LockLevel", 1);
-            SaveEmpty();
-        }
-        else
-        {
-            SaveEmpty();
+            User = User.GetCurrentUser();
         }
 
         HomeManager.Instance.UpdateCoinText();
         HomeManager.Instance.UpdateLifeText();
         HomeManager.Instance.UpdateSetting();
-
-
     }
 
 
