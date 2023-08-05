@@ -237,7 +237,7 @@ public class HomeManager : MonoBehaviour
     public void GetCoinsRewarded()
     {
         int _coin = PlayerPrefs.GetInt("Coin");
-        _coin += 50;
+        _coin += 100;
         PlayerPrefs.SetInt("Coin", _coin);
 #if !UNITY_EDITOR && UNITY_WEBGL
         Progress.Instance.Save();

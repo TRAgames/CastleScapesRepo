@@ -46,6 +46,8 @@ public class UIManager : MonoBehaviour
 
     public GameObject frontLife1, frontLife2, frontLife3, frontLifeInGame1,frontLifeInGame2,frontLifeInGame3;
 
+    public Camera FXCamera;
+
     private void Awake()
     {
         _instance = this;
@@ -246,6 +248,10 @@ public class UIManager : MonoBehaviour
         Camera.main.transform.localPosition = new Vector3(_hero.transform.localPosition.x,
         _hero.transform.localPosition.y, Camera.main.transform.position.z);
         Camera.main.orthographicSize = 3.0f;
+
+        FXCamera.transform.localPosition = new Vector3(_hero.transform.localPosition.x,
+_hero.transform.localPosition.y, Camera.main.transform.position.z);
+        FXCamera.orthographicSize = 3.0f;
 #if !UNITY_EDITOR && UNITY_WEBGL
         if (currentLevel >= 5) FinishLevel();           
 #endif
@@ -383,6 +389,11 @@ public class UIManager : MonoBehaviour
         Camera.main.transform.localPosition = new Vector3(_hero.transform.localPosition.x,
         _hero.transform.localPosition.y, Camera.main.transform.position.z);
         Camera.main.orthographicSize = 3.0f;
+
+        FXCamera.transform.localPosition = new Vector3(_hero.transform.localPosition.x,
+_hero.transform.localPosition.y, Camera.main.transform.position.z);
+        FXCamera.orthographicSize = 3.0f;
+
 #if !UNITY_EDITOR && UNITY_WEBGL
         if (currentLevel >= 5) FinishLevel();           
 #endif
@@ -476,7 +487,7 @@ public class UIManager : MonoBehaviour
     public void GetCoinsRewarded()
     {
         int _coin = PlayerPrefs.GetInt("Coin");
-        _coin += 50;
+        _coin += 100;
         PlayerPrefs.SetInt("Coin", _coin);
 #if !UNITY_EDITOR && UNITY_WEBGL
         Progress.Instance.Save();
