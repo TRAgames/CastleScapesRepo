@@ -10,6 +10,7 @@ public class LevelSelector : MonoBehaviour
     [HideInInspector]
     public int currentPage = 0,totalPage;
 
+    [SerializeField] private Button _btnPreviousPage, _btnNextPage;
     public TextMeshProUGUI pageText;
 
     public Sprite unlockLevel,lockLevel;
@@ -25,6 +26,8 @@ public class LevelSelector : MonoBehaviour
         for (int i = 0; i < GetChildByName("Holder").transform.childCount; i++)
             levelItemLst[i] = GetChildByName("Holder").transform.GetChild(i);
         ShowLevelItemInfo();
+        if (currentPage == 2) _btnNextPage.gameObject.SetActive(false);
+        else if (currentPage == 0) _btnPreviousPage.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -99,7 +102,23 @@ public class LevelSelector : MonoBehaviour
             currentPage++;
             ShowLevelItemInfo();
         }
-           
+
+        if (currentPage == 2)
+        {
+            _btnNextPage.gameObject.SetActive(false);
+            _btnPreviousPage.gameObject.SetActive(true);
+        }
+        else if (currentPage == 0)
+        {
+            _btnPreviousPage.gameObject.SetActive(false);
+            _btnNextPage.gameObject.SetActive(true);
+        }
+        else
+        {
+            _btnNextPage.gameObject.SetActive(true);
+            _btnPreviousPage.gameObject.SetActive(true);
+        }
+
     }
 
     public void PrePage()
@@ -114,6 +133,20 @@ public class LevelSelector : MonoBehaviour
             currentPage--;
             ShowLevelItemInfo();
         }
-           
+        if (currentPage == 2)
+        {
+            _btnNextPage.gameObject.SetActive(false);
+            _btnPreviousPage.gameObject.SetActive(true);
+        }
+        else if (currentPage == 0)
+        {
+            _btnPreviousPage.gameObject.SetActive(false);
+            _btnNextPage.gameObject.SetActive(true);
+        }
+        else
+        {
+            _btnNextPage.gameObject.SetActive(true);
+            _btnPreviousPage.gameObject.SetActive(true);
+        }
     }
 }
