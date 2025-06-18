@@ -11,6 +11,8 @@ public class HomeManager : MonoBehaviour
     private static extern void GetCoins();
 
     public GameObject levelSelector, homePanel, loadingPanel,settingPanel,outLifePanel, moreCoinPanel, frontLife1,frontLife2,frontLife3;
+    public GameObject BlackLoadingScreen;
+    public GameObject MenuUIScreen;
 
     public Image loadingMask, musicImg,soundImg,virImg;
 
@@ -25,33 +27,37 @@ public class HomeManager : MonoBehaviour
     private void Awake()
     {
         _instance = this;
-#if UNITY_EDITOR
-        if (PlayerPrefs.GetInt("StartGame") == 0)
-        {
-            PlayerPrefs.SetInt("StartGame", 1);
-            PlayerPrefs.SetInt("Coin", 200);
-            PlayerPrefs.SetInt("Life", 3);
-            PlayerPrefs.SetInt("Sound", 1);
-            PlayerPrefs.SetInt("Music", 1);
-            PlayerPrefs.SetInt("Vir", 1);
-            PlayerPrefs.SetInt("LockLevel", 1);
-        }
-#endif
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        //lockLevelText.text = "LEVEL " + PlayerPrefs.GetInt("LockLevel");
+        if (Progress.Instance.IsSecondSession)
+        {
+            SecondSession();
+        }
+    }
+
+    public void SecondSession()
+    {
+        LocalizationManager.Instance.SetLanguage(Progress.Instance.User.Language);
+
         UpdateCoinText();
         UpdateLifeText();
         UpdateSetting();
+        DeactivateBlackLoadingScreen();
+        ActivateMenuUIScreen();
     }
 
     // Update is called once per frame
-    void Update()
+    public void DeactivateBlackLoadingScreen()
     {
+        BlackLoadingScreen.SetActive(false);
+    }
 
+    public void ActivateMenuUIScreen()
+    {
+        MenuUIScreen.SetActive(true);
     }
 
     public void ShowLevelPanel()

@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Progress : MonoBehaviour
 {
@@ -24,6 +23,8 @@ public class Progress : MonoBehaviour
     public User User;
 
     public bool IsAdsShowing = false;
+
+    public bool IsSecondSession = false;
 
     public LayerMask DesireMask { get => _desireMask; set => _desireMask = value; }
 
@@ -48,6 +49,9 @@ public class Progress : MonoBehaviour
 #if !UNITY_EDITOR && UNITY_WEBGL
         LoadExtern();
 #endif
+#if UNITY_EDITOR
+        LoadEmpty();
+#endif
     }
 
     private void Update()
@@ -58,7 +62,7 @@ public class Progress : MonoBehaviour
             DeleteAllData();
         }
 
-        if (Input.GetKeyDown(KeyCode.Insert) && Input.GetKeyDown(KeyCode.End))
+        if (Input.GetKeyDown(KeyCode.Backspace) && Input.GetKeyDown(KeyCode.End))
         {
             PlayerPrefs.SetInt("LockLevel", 59);
         }
@@ -101,6 +105,7 @@ public class Progress : MonoBehaviour
         HomeManager.Instance.UpdateCoinText();
         HomeManager.Instance.UpdateLifeText();
         HomeManager.Instance.UpdateSetting();
+
     }
 
     public void LoadEmpty()
@@ -119,9 +124,13 @@ public class Progress : MonoBehaviour
             User = User.GetCurrentUser();
         }
 
+        SetLanguage("ru");
+
         HomeManager.Instance.UpdateCoinText();
         HomeManager.Instance.UpdateLifeText();
         HomeManager.Instance.UpdateSetting();
+        HomeManager.Instance.DeactivateBlackLoadingScreen();
+        HomeManager.Instance.ActivateMenuUIScreen();
     }
 
 
@@ -133,6 +142,8 @@ public class Progress : MonoBehaviour
         Save();
 #endif
     }
+
+
 
     void OnApplicationFocus(bool hasFocus)
     {
@@ -161,5 +172,17 @@ public class Progress : MonoBehaviour
         IsAdsShowing = false;
         AudioListener.pause = false;
     }
-
+    public void SetLanguage(string data)
+    {
+        switch (data)
+        {
+            case "ru": User.Language = data; break;
+            case "en": User.Language = data; break;
+            case "tr": User.Language = data; break;
+            case "de": User.Language = data; break;
+            case "es": User.Language = data; break;
+            default: User.Language = "en"; break;
+        }
+        LocalizationManager.Instance.SetLanguage(User.Language);
+    }
 }

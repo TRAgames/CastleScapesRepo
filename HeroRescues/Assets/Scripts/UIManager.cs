@@ -52,7 +52,9 @@ public class UIManager : MonoBehaviour
     {
         _instance = this;
         StartCoroutine(Fading());
-       
+#if !UNITY_EDITOR && UNITY_WEBGL
+            FinishLevel();
+#endif
     }
 
     // Start is called before the first frame update
@@ -158,6 +160,7 @@ public class UIManager : MonoBehaviour
         {
             SoundManager.Instance.Play(SoundManager.Instance._btnClick);
         }
+        Progress.Instance.IsSecondSession = true;
         Application.LoadLevel("MainHome");
     }    
 
@@ -602,7 +605,7 @@ _hero.transform.localPosition.y, Camera.main.transform.position.z);
         int _index = Mathf.CeilToInt(currentLevel / 5);
         if (currentLevel % 5 == 0)
             _index = currentLevel / 5 - 1;
-        Debug.Log("INDEX " + _index);
+        //Debug.Log("INDEX " + _index);
         SetIconFromLevelType(LevelManager._instance.levelTypeLst[_index * 5], iconResultLst[0]);
         SetIconFromLevelType(LevelManager._instance.levelTypeLst[_index * 5 + 1], iconResultLst[1]);
         SetIconFromLevelType(LevelManager._instance.levelTypeLst[_index * 5 + 2], iconResultLst[2]);

@@ -9,6 +9,7 @@ public class User
     public int Coin;
     public int LockLevel;
     public int StartGame;
+    public string Language;
 
     public static User GetCurrentUser()
     {
@@ -18,7 +19,8 @@ public class User
             CurrentLevel = PlayerPrefs.GetInt("CurrentLevel"),
             Life = PlayerPrefs.GetInt("Life"),
             Coin = PlayerPrefs.GetInt("Coin"),
-            LockLevel = PlayerPrefs.GetInt("LockLevel")
+            LockLevel = PlayerPrefs.GetInt("LockLevel"),
+            Language = PlayerPrefs.GetString("language")
         };
         return currentUser;
     }
@@ -30,6 +32,7 @@ public class User
         PlayerPrefs.SetInt("Life", currentUser.Life);
         PlayerPrefs.SetInt("Coin", currentUser.Coin);
         PlayerPrefs.SetInt("LockLevel", currentUser.LockLevel);
+        PlayerPrefs.SetString("language", currentUser.Language);
     }
 
 }

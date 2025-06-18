@@ -62,7 +62,7 @@ public class LevelSelector : MonoBehaviour
     {
         pageText.text = "Страница " + (currentPage + 1).ToString();
         int _lockLevel = PlayerPrefs.GetInt("LockLevel");
-        Debug.Log(_lockLevel);
+        //Debug.Log(_lockLevel);
         for(int i = 0; i < levelItemLst.Length; i++)
         {
             levelItemLst[i].Find("LevelText " + "(" + i + ")").GetComponent<TextMeshProUGUI>().text = (i + 1 + levelItemLst.Length * currentPage).ToString() + "";
