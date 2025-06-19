@@ -1,0 +1,48 @@
+
+Labuba.png
+size: 256,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: false
+  xy: 2, 137
+  size: 210, 139
+  orig: 211, 139
+  offset: 1, 0
+  index: -1
+face
+  rotate: false
+  xy: 2, 278
+  size: 180, 217
+  orig: 217, 217
+  offset: 24, 0
+  index: -1
+heartbig
+  rotate: false
+  xy: 2, 2
+  size: 150, 133
+  orig: 167, 149
+  offset: 6, 10
+  index: -1
+heartsmall
+  rotate: false
+  xy: 154, 68
+  size: 75, 67
+  orig: 84, 75
+  offset: 3, 5
+  index: -1
+lefthand
+  rotate: false
+  xy: 184, 494
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+righthand
+  rotate: false
+  xy: 184, 494
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
