@@ -67,10 +67,9 @@ public class Progress : MonoBehaviour
             PlayerPrefs.SetInt("LockLevel", 59);
         }
 
-        if (Input.GetKeyDown(KeyCode.PageDown))
+        if (Input.GetKeyDown(KeyCode.End))
         {
-            i++;
-            ScreenCapture.CaptureScreenshot("Gameplay_" + i + ".jpg");
+            ScreenCapture.CaptureScreenshot("Gameplay_" + Random.Range(0,100) + ".jpg");
         }
 
     }
@@ -142,8 +141,6 @@ public class Progress : MonoBehaviour
         Save();
 #endif
     }
-
-
 
     void OnApplicationFocus(bool hasFocus)
     {

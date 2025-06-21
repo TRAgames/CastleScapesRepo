@@ -90,7 +90,7 @@ public class UIManager : MonoBehaviour
     {
      
         loadingPanel.SetActive(true);
-        levelTextInGame.text = "Уровень " + PlayerPrefs.GetInt("CurrentLevel");
+        levelTextInGame.text = LocalizationManager.Instance.GetLocalizedValue("level") + PlayerPrefs.GetInt("CurrentLevel");
         yield return new WaitForSeconds(0.2f);
       /*  for (float i = 1; i >= 0; i -= Time.deltaTime * 0.99f)
         {
@@ -107,7 +107,7 @@ public class UIManager : MonoBehaviour
         loadingPanel.SetActive(true);
         LevelManager._instance.LoadLevel();
         gameUIPanel.SetActive(true);
-        levelTextInGame.text = "Уровень " + PlayerPrefs.GetInt("CurrentLevel");
+        levelTextInGame.text = LocalizationManager.Instance.GetLocalizedValue("level") + PlayerPrefs.GetInt("CurrentLevel");
         //yield return new WaitForSeconds(0.2f);
         for (float i = 1; i >= 0; i -= Time.deltaTime * 0.35f)
         {

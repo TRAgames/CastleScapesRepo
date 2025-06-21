@@ -8,6 +8,7 @@ using static System.Net.Mime.MediaTypeNames;
 public class LocalizatedText : MonoBehaviour
 {
     [SerializeField] private bool _isManual = false;
+    [SerializeField] private bool _isGameplay = false;
     public string key;
 
     public bool IsManual { get => _isManual; set => _isManual = value; }
@@ -16,8 +17,16 @@ public class LocalizatedText : MonoBehaviour
     {
         if (!_isManual)
         {
-            TextMeshProUGUI text = GetComponent<TextMeshProUGUI>();
-            text.text = LocalizationManager.Instance.GetLocalizedValue(key);
+            if (!_isGameplay)
+            {
+                TextMeshProUGUI text = GetComponent<TextMeshProUGUI>();
+                text.text = LocalizationManager.Instance.GetLocalizedValue(key);
+            }
+            else
+            {
+                TextMeshPro text = GetComponent<TextMeshPro>();
+                text.text = LocalizationManager.Instance.GetLocalizedValue(key);
+            }
         }
     }
 

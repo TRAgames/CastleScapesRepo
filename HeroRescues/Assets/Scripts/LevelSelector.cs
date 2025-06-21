@@ -60,16 +60,23 @@ public class LevelSelector : MonoBehaviour
 
     public void ShowLevelItemInfo()
     {
-        pageText.text = "Страница " + (currentPage + 1).ToString();
+        pageText.text = LocalizationManager.Instance.GetLocalizedValue("page") + (currentPage + 1).ToString();
         int _lockLevel = PlayerPrefs.GetInt("LockLevel");
         //Debug.Log(_lockLevel);
         for(int i = 0; i < levelItemLst.Length; i++)
         {
             levelItemLst[i].Find("LevelText " + "(" + i + ")").GetComponent<TextMeshProUGUI>().text = (i + 1 + levelItemLst.Length * currentPage).ToString() + "";
             if (i + 1 + levelItemLst.Length * currentPage <= _lockLevel)
+            {
                 levelItemLst[i].Find("Panel").GetComponent<Image>().sprite = unlockLevel;
+                //levelItemLst[i].GetComponent<Button>().interactable = false;
+            }              
             else
+            {
                 levelItemLst[i].Find("Panel").GetComponent<Image>().sprite = lockLevel;
+                //levelItemLst[i].GetComponent<Button>().interactable = true;
+            }
+                
             //levelItemLst[i].GetComponent<Button>().onClick.AddListener(() => LoadLevel(i));
             /*
             levelItemLst[i].GetComponent<Button>().onClick.AddListener(() => {
@@ -83,7 +90,7 @@ public class LevelSelector : MonoBehaviour
 
     public void LoadLevel(int _level)
     {
-        if(_level <= PlayerPrefs.GetInt("LockLevel"))
+        if ((_level + levelItemLst.Length * currentPage) <= PlayerPrefs.GetInt("LockLevel"))
          HomeManager.Instance.LoadLevel(_level + levelItemLst.Length * currentPage);
     }
 

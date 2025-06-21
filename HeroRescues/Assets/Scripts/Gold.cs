@@ -53,7 +53,6 @@ public class Gold : MonoBehaviour
             Destroy(_magma, 1.0f);
 
 
-
             if (!Level._instance._hero.isDied)
             {
                 Level._instance._hero.isDied = true;
