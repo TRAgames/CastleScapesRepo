@@ -190933,6 +190933,7 @@ MonoBehaviour:
   moreLifePanel: {fileID: 197699330}
   btnMenuGameplay: {fileID: 1790254096043070794}
   btnReplayGameplay: {fileID: 1790254096043070994}
+  btnNextLevelAds: {fileID: 1790254096043070804}
   loadingMask: {fileID: 1790254096043069395}
   levelTextInGame: {fileID: 1790254096043070099}
   levelTextInResult: {fileID: 1134346685}

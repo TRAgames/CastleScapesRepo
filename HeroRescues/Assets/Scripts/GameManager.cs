@@ -1,9 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+
+    [DllImport("__Internal")]
+    private static extern void SetLeaderboardExtern(int value);
+
     public static GameManager instance;
 
     public bool isGameOver, isGameWin = false;
@@ -57,9 +62,24 @@ public class GameManager : MonoBehaviour
     {
         if (isGameWin)
             return;
+
+#if !UNITY_EDITOR && UNITY_WEBGL
+            SetLeaderboardExtern(PlayerPrefs.GetInt("CurrentLevel"));
+#endif
+
+        LevelFinishedSend(PlayerPrefs.GetInt("CurrentLevel").ToString());
         isGameWin = true;
         Camera.main.cullingMask = Progress.Instance.DesireMask;
         UIManager._instance.ShowGameClear();
+    }
+
+    public void LevelFinishedSend(string name)
+    {
+        var eventParams = new Dictionary<string, string>
+            {
+                { "level_finished", name }
+            };
+        YandexMetrica.Send("level_finished", eventParams);
     }
 
     public void ResetPara()

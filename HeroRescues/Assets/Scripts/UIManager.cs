@@ -20,7 +20,7 @@ public class UIManager : MonoBehaviour
 
     public GameObject gameUIPanel, loadingPanel, resultPanel,failResultPanel,replayBtn,skipBtn,doubleCoinBtn, moreCoinPanel, moreLifePanel;
 
-    public Button btnMenuGameplay, btnReplayGameplay;
+    public Button btnMenuGameplay, btnReplayGameplay, btnNextLevelAds;
 
     public SpriteRenderer loadingMask;
 
@@ -256,7 +256,7 @@ public class UIManager : MonoBehaviour
 _hero.transform.localPosition.y, Camera.main.transform.position.z);
         FXCamera.orthographicSize = 3.0f;
 #if !UNITY_EDITOR && UNITY_WEBGL
-        if (currentLevel >= 5) FinishLevel();           
+        FinishLevel();           
 #endif
         if (PlayerPrefs.GetInt("Bonus" + PlayerPrefs.GetInt("CurrentLevel")) == 1)
         {
@@ -357,6 +357,7 @@ _hero.transform.localPosition.y, Camera.main.transform.position.z);
     {
         btnMenuGameplay.interactable = false;
         btnReplayGameplay.interactable = false;
+        btnNextLevelAds.interactable = false;
         StartCoroutine(ShowGameOverIE());
     }
 
@@ -383,6 +384,7 @@ _hero.transform.localPosition.y, Camera.main.transform.position.z);
         failResultPanel.SetActive(true);
         btnMenuGameplay.interactable = true;
         btnReplayGameplay.interactable = true;
+        btnNextLevelAds.interactable = true;
         int currentLevel = PlayerPrefs.GetInt("CurrentLevel");
         SetIconGameOverInLevel();
         doneResultLst[(currentLevel - 1) % 5].gameObject.SetActive(true);
